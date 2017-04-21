@@ -1,0 +1,32 @@
+function [outputImg] = filter2d(inputImg, givenFilter)
+	[h,w] = size(inputImg);
+	[m,n] = size(givenFilter);
+
+	total = 0;
+	for i = 1:m;
+		for j = 1:n
+			total = total + givenFilter(i,j);
+        end
+    end
+
+	center = floor(m / 2) + 1;
+    padsize = m - center;
+    disp(m);
+	disp(center);
+    disp(padsize);
+    
+    m = zeros(h+2*padsize,w+2*padsize);
+    m(1+padsize:h+padsize,1+padsize:w+padsize)=inputImg;
+	
+    for i = 1+padsize:h+padsize;
+		for j = 1+padsize:w+padsize
+            sum = 0;
+            for k = i-padsize:i+padsize
+            %    for t = j-padsize:j+padsize
+            %        sum = sum + inputImg(k, t)*givenFilter
+   %         c = inputImg(i-padsize:i+padsize,j-padsize:j+padsize).*givenFilter;
+    %        s = sum(sum(c));
+   %         outputImg(i,j) = s*1.0/m/n;
+   %     end
+   % end
+end

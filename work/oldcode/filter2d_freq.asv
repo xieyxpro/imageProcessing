@@ -1,0 +1,5 @@
+function [output_img] = filter2d_freq(input_img,filter)
+    dft=dft2d(input_img,1);
+    newfilter=zeros(256,384);
+    newfilter)
+end

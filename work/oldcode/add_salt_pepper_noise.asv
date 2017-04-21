@@ -1,0 +1,29 @@
+function [output] = add_salt_pepper_noise(input,saltrate,pepperrate)
+    if saltrate < 0 || pepperrate < 0 || saltrate + pepperrate > 1
+        return
+    end
+    
+    disp(saltrate);
+    disp(pepperrate);
+    
+    [h,w] = size(input);
+    
+    saltsize = h * w * saltrate;
+    peppersize = h * w * pepperrate;
+    
+    disp(saltsize);
+    disp(peppersize);
+    
+    randomplace = unidrnd(h,1,saltsize);
+    output = input;
+    for i=1:saltsize
+        x = floor(randomplace(i)/w);
+        y = mod(randomplace(i),w)
+        output(randomplaceh(i),randomplacew(i)) = 255;
+    end
+    
+    randomplace = unidrnd(h,1,peppersize);
+    for i=1:peppersize
+        output(randomplaceh(i),randomplacew(i)) = 0;
+    end
+end

@@ -1,0 +1,21 @@
+I=double(imread('cat.bmp'))/255;
+p=I;
+q1=guidedfilter(I,p,2,0.1^2);
+q2=guidedfilter(I,p,2,0.2^2);
+q3=guidedfilter(I,p,2,0.4^2);
+
+q4=guidedfilter(I,p,4,0.1^2);
+q5=guidedfilter(I,p,4,0.2^2);
+q6=guidedfilter(I,p,4,0.4^2);
+
+q7=guidedfilter(I,p,8,0.1^2);
+q8=guidedfilter(I,p,8,0.2^2);
+q9=guidedfilter(I,p,8,0.4^2);
+
+imshow(I);
+figure();
+imshow([q1,q2,q3]);
+figure();
+imshow([q4 q5 q6]);
+figure();
+imshow([q7,q8,q9]);

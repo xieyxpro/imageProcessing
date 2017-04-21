@@ -1,0 +1,89 @@
+function [output]= i_equalize_hist(input)
+    input = double(input);
+    
+    R=input(:,:,1);
+    G=input(:,:,2);
+    B=input(:,:,3);
+    
+%     disp(R(1:3,1:3));
+%     disp(G(1:3,1:3));
+%     disp(B(1:3,1:3));
+    
+    num=0.5*((R-G)+(R-B));
+    den=sqrt((R-G).^2+(R-B).*(G-B));
+    theta=acos(num./(den+eps));
+    
+%     disp(num(1:3,1:3));
+%     disp(den(1:3,1:3));
+%     disp(theta(1:3,1:3));
+    
+    H=theta;
+    H(B>G)=2*pi-H(B>G);
+    
+    den=R+G+B;
+    den(den==0)=eps;
+    S=1-3.*min(min(R,G),B)./den;
+    H(S==0)=0;
+    
+    I=uint8((R+G+B)/3);
+    
+     disp(H(1:3,1:3));
+     disp(S(1:3,1:3));
+     disp(I(1:3,1:3));
+    
+    I=equalize_hist(I);
+    
+    HSI=cat(3,H,S,I);
+    
+    HSI=double(HSI);
+    H = HSI(:,:,1);
+    S = HSI(:,:,2);
+    I = HSI(:,:,3);
+    
+    nr=zeros(size(input,1),size(input,2));
+    ng=zeros(size(input,1),size(input,2));
+    nb=zeros(size(input,1),size(input,2));
+    
+    for i=1:256
+        for j=1:384
+            if H(i,j) < 2*pi/3
+                ng(i,j)=I(i,j)*(1-S(i,j));
+                nr(i,j)=I(i,j)* (1+S(id) .* cos(H(id)) ./ cos(pi/3-H(id)));
+    
+%     id=find( H<2*pi/3 );
+%     disp(size(id));
+%     nb(id)=I(id) .* (1-S(id));
+%     nr(id)=I(id) .* (1+S(id) .* cos(H(id)) ./ cos(pi/3-H(id)));
+%     ng(id)=3*I(id)-(nr(id)+nb(id));
+%     
+%     id=find( (2*pi/3<=H) & (H<4*pi/3) );
+%     disp(size(id));
+%     nr(id)=I(id).*(1-S(id));
+%     ng(id)=I(id).*(1+S(id).*cos(H(id)-2*pi/3)./cos(pi-H(id)));
+%     nb(id)=3*I(id)-(R(id)+G(id));
+%     
+%     id=find( (4*pi/3<=H) & (H<=2*pi) );
+%     disp(size(id));
+%     ng(id)=I(id).*(1-S(id));
+%     nb(id)=I(id).*(1+S(id).*cos(H(id)-4*pi/3)./cos(5*pi/3-H(id)));
+%     nr(id)=3*I(id)-(ng(id)+nb(id));
+    
+%     disp(nr(1:3,1:3));
+%     disp(ng(1:3,1:3));
+%     disp(nb(1:3,1:3));
+    
+    output=cat(3,nr,ng,nb);
+%     output=max(min(output,1),0);
+%     disp(output(1:6,1:6,1));
+%     disp(output(1:6,1:6,2));
+%     disp(output(1:6,1:6,3));
+
+
+% hsi=rgb2hsi(input);
+% H = hsi(:,:,1);
+% S = hsi(:,:,2);
+% I = hsi(:,:,3)
+% I=equalize_hist(uint8(I));
+% K=cat(3,H,S,I);
+% output=hsi2rgb(K);
+end
